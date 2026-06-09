@@ -28,16 +28,15 @@ function Navbar() {
     }
 
     return (
-        <div className="w-full bg-black flex items-center justify-between px-6 md:px-10 py-4">
+        <div className="relative w-full bg-black flex items-center justify-between px-6 lg:px-10 py-4">
             <h1 className="text-white text-2xl md:text-3xl">PIZZA VILLE</h1>
 
             {/* Hamburger */}
-            <button className="text-white md:hidden text-3xl cursor-pointer" onClick={() => setMenuOpen(!menuOpen)}>
-                ☰
-            </button>
-
+            <button className="text-white lg:hidden text-3xl cursor-pointer" onClick={() => setMenuOpen(!menuOpen)}>
+    ☰
+</button>
             {/* Desktop Links */}
-            <nav className="hidden md:flex items-center text-white gap-8 text-xl">
+            <nav className="hidden lg:flex items-center text-white gap-8 text-xl">
                 <NavLink className="hover:opacity-70" style={({ isActive }) => ({ color: isActive ? 'rgb(141, 15, 15)' : 'white' })} to="/">Home</NavLink>
                 <NavLink className="hover:opacity-70" style={({ isActive }) => ({ color: isActive ? 'rgb(141, 15, 15)' : 'white' })} to="/menu">Menu</NavLink>
                 <NavLink className="hover:opacity-70" style={({ isActive }) => ({ color: isActive ? 'rgb(141, 15, 15)' : 'white' })} to="/contact_us">Contact us</NavLink>
@@ -68,7 +67,7 @@ function Navbar() {
 
             {/* Mobile Menu */}
             {menuOpen && (
-                <div className="absolute top-16 left-0 w-full bg-black flex flex-col items-center gap-6 py-6 md:hidden z-50">
+                <div className="absolute top-16 left-0 w-full bg-black flex flex-col items-center gap-6 py-6 lg:hidden z-50">
                     <NavLink onClick={() => setMenuOpen(false)} style={({ isActive }) => ({ color: isActive ? 'rgb(141, 15, 15)' : 'white' })} to="/">Home</NavLink>
                     <NavLink onClick={() => setMenuOpen(false)} style={({ isActive }) => ({ color: isActive ? 'rgb(141, 15, 15)' : 'white' })} to="/menu">Menu</NavLink>
                     <NavLink onClick={() => setMenuOpen(false)} style={({ isActive }) => ({ color: isActive ? 'rgb(141, 15, 15)' : 'white' })} to="/contact_us">Contact us</NavLink>

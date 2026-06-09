@@ -10,9 +10,10 @@ import { AuthProvider } from './AuthContext';
 import Login from './Login';
 import SignUp from './SignUp';
 import ProtectedRoute from './components/ProtectedRoute';
+import Intro from './components/Intro';
 function App(){
   const [cart, setCart] = useState([]);
-
+  const [showIntro, setShowIntro] = useState(true);
   function addToCart(pizza) {
     setCart(prevCart => {
         const existing = prevCart.find(item => item.id === pizza.id);
@@ -42,6 +43,7 @@ function decreaseQuantity(pizzaId) {
 }
   return(
     <AuthProvider>
+      {showIntro && <Intro onComplete={() => setShowIntro(false)} />}
         <BrowserRouter>
             <Navbar/>
               <Routes>

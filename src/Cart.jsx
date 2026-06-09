@@ -1,13 +1,10 @@
 import { Link } from 'react-router-dom';
-import { useAuth } from './AuthContext';
-import axios from 'axios';
 import Swal from 'sweetalert2';
 
 function Cart({ cart, clearCart, removeFromCart, decreaseQuantity, addToCart }) {
     const total = cart.reduce((sum, pizza) => sum + pizza.price * pizza.quantity, 0);
-    const { user, token } = useAuth();
 
-    async function handleCheckout() {
+    function handleCheckout() {
         Swal.fire({
             title: 'Confirm Order?',
             text: `Total: ${total} EGP`,
@@ -18,40 +15,17 @@ function Cart({ cart, clearCart, removeFromCart, decreaseQuantity, addToCart }) 
             background: '#18181b',
             color: '#ffffff',
             confirmButtonColor: 'rgb(141,15,15)',
-        }).then(async (result) => {
+        }).then((result) => {
             if (result.isConfirmed) {
-                try {
-                    await axios.post('http://localhost:1337/api/orders', {
-                        data: {
-                            username: user.username,
-                            items: cart.map(p => ({ name: p.name, quantity: p.quantity, price: p.price })),
-                            total: total,
-                            orderStatus: 'pending',
-                        }
-                    }, {
-                        headers: {
-                            Authorization: `Bearer ${token}`
-                        }
-                    });
-                    clearCart();
-                    Swal.fire({
-                        title: 'Order Placed! 🍕',
-                        text: 'Your order is being prepared',
-                        icon: 'success',
-                        background: '#18181b',
-                        color: '#ffffff',
-                        confirmButtonColor: 'rgb(141,15,15)',
-                    });
-                } catch (err) {
-                    Swal.fire({
-                        title: 'Error!',
-                        text: 'Something went wrong',
-                        icon: 'error',
-                        background: '#18181b',
-                        color: '#ffffff',
-                        confirmButtonColor: 'rgb(141,15,15)',
-                    });
-                }
+                clearCart();
+                Swal.fire({
+                    title: 'Order Placed! 🍕',
+                    text: 'Your order is being prepared',
+                    icon: 'success',
+                    background: '#18181b',
+                    color: '#ffffff',
+                    confirmButtonColor: 'rgb(141,15,15)',
+                });
             }
         });
     }
@@ -87,7 +61,7 @@ function Cart({ cart, clearCart, removeFromCart, decreaseQuantity, addToCart }) 
                             {cart.map((pizza, index) => (
                                 <tr key={index} className='border-b border-zinc-800'>
                                     <td className='py-3 flex items-center gap-4'>
-                                        <img src={`http://localhost:1337${pizza.img[0].url}`} className='w-16 h-16 object-cover rounded-lg' alt={pizza.name} />
+                                        <img src={pizza.img} className='w-16 h-16 object-cover rounded-lg' alt={pizza.name} />
                                         {pizza.name}
                                     </td>
                                     <td className='py-3 text-center'>

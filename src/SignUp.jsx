@@ -1,6 +1,5 @@
 import { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
-import axios from 'axios';
 import { useAuth } from './AuthContext';
 import Swal from 'sweetalert2';
 
@@ -14,7 +13,7 @@ function SignUp() {
         setFormData({ ...formData, [e.target.name]: e.target.value });
     }
 
-    async function handleSubmit() {
+    function handleSubmit() {
         if (!formData.username || !formData.email || !formData.password) {
             Swal.fire({
                 title: 'Oops!',
@@ -28,32 +27,37 @@ function SignUp() {
         }
 
         setLoading(true);
-        try {
-            const res = await axios.post('http://localhost:1337/api/auth/local/register', {
-                username: formData.username,
-                email: formData.email,
-                password: formData.password,
-            });
-            login(res.data.user, res.data.jwt);
-            Swal.fire({
-                title: 'Welcome to Pizza Ville! 🍕',
-                icon: 'success',
-                timer: 1500,
-                showConfirmButton: false,
-                background: '#18181b',
-                color: '#ffffff',
-            });
-            navigate('/');
-        } catch (err) {
+
+        const users = JSON.parse(localStorage.getItem('users') || '[]');
+        const exists = users.find(u => u.email === formData.email);
+
+        if (exists) {
             Swal.fire({
                 title: 'Error!',
-                text: err.response?.data?.error?.message || 'Something went wrong',
+                text: 'Email already exists',
                 icon: 'error',
                 background: '#18181b',
                 color: '#ffffff',
                 confirmButtonColor: 'rgb(141,15,15)',
             });
+            setLoading(false);
+            return;
         }
+
+        const newUser = { username: formData.username, email: formData.email, password: formData.password };
+        users.push(newUser);
+        localStorage.setItem('users', JSON.stringify(users));
+
+        login(newUser, null);
+        Swal.fire({
+            title: 'Welcome to Pizza Ville! 🍕',
+            icon: 'success',
+            timer: 1500,
+            showConfirmButton: false,
+            background: '#18181b',
+            color: '#ffffff',
+        });
+        navigate('/');
         setLoading(false);
     }
 

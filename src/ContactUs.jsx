@@ -31,7 +31,7 @@ function ContactUs() {
 
         setLoading(true);
         try {
-            await axios.post('http://localhost:1337/api/contact-messages', {
+            await axios.post('https://pizza-ville-backend-production.up.railway.app/api/contact-messages', {
                 data: {
                     name: formData.name,
                     email: formData.email,

@@ -1,11 +1,10 @@
 import { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
-import axios from 'axios';
 import { useAuth } from './AuthContext';
 import Swal from 'sweetalert2';
 
 function Login() {
-    const [formData, setFormData] = useState({ identifier: '', password: '' });
+    const [formData, setFormData] = useState({ email: '', password: '' });
     const [loading, setLoading] = useState(false);
     const { login } = useAuth();
     const navigate = useNavigate();
@@ -14,8 +13,8 @@ function Login() {
         setFormData({ ...formData, [e.target.name]: e.target.value });
     }
 
-    async function handleSubmit() {
-        if (!formData.identifier || !formData.password) {
+    function handleSubmit() {
+        if (!formData.email || !formData.password) {
             Swal.fire({
                 title: 'Oops!',
                 text: 'Please fill in all fields',
@@ -28,12 +27,12 @@ function Login() {
         }
 
         setLoading(true);
-        try {
-            const res = await axios.post('http://localhost:1337/api/auth/local', {
-                identifier: formData.identifier,
-                password: formData.password,
-            });
-            login(res.data.user, res.data.jwt);
+
+        const users = JSON.parse(localStorage.getItem('users') || '[]');
+        const user = users.find(u => u.email === formData.email && u.password === formData.password);
+
+        if (user) {
+            login(user, null);
             Swal.fire({
                 title: 'Welcome back! 🍕',
                 icon: 'success',
@@ -43,7 +42,7 @@ function Login() {
                 color: '#ffffff',
             });
             navigate('/');
-        } catch (err) {
+        } else {
             Swal.fire({
                 title: 'Error!',
                 text: 'Invalid email or password',
@@ -66,8 +65,8 @@ function Login() {
                     <div className='flex flex-col gap-2'>
                         <label className='text-gray-400 text-sm'>Email</label>
                         <input
-                            name='identifier'
-                            value={formData.identifier}
+                            name='email'
+                            value={formData.email}
                             onChange={handleChange}
                             type='email'
                             placeholder='john@example.com'
