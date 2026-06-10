@@ -71,7 +71,7 @@ function Navbar() {
 
             {/* Mobile Menu - بيدفع الـ content لتحت */}
            {/* Mobile Menu */}
-<div className={`w-full bg-black flex flex-col items-center gap-6 py-6 lg:hidden border-t border-zinc-800 overflow-hidden transition-all duration-500 ${menuOpen ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0 py-0'}`}>
+<div className={`w-full bg-black flex flex-col items-center gap-6 py-6 lg:hidden border-t border-zinc-800 overflow-hidden transition-all duration-300 ${menuOpen ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0 py-0'}`}>
     <NavLink onClick={() => setMenuOpen(false)} style={({ isActive }) => ({ color: isActive ? 'rgb(141, 15, 15)' : 'white' })} to="/">Home</NavLink>
     <NavLink onClick={() => setMenuOpen(false)} style={({ isActive }) => ({ color: isActive ? 'rgb(141, 15, 15)' : 'white' })} to="/menu">Menu</NavLink>
     <NavLink onClick={() => setMenuOpen(false)} style={({ isActive }) => ({ color: isActive ? 'rgb(141, 15, 15)' : 'white' })} to="/contact_us">Contact us</NavLink>
