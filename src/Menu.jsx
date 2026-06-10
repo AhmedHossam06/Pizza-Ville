@@ -187,7 +187,7 @@ function Menu({ addToCart }) {
                     className='fixed inset-0 z-20 bg-zinc-900 flex flex-col md:flex-row md:items-center overflow-y-auto'
                     style={{ opacity: 0 }}>
 
-                    <div className='w-full md:w-1/2 px-6 md:px-16 py-6 flex flex-col gap-4 mt-[55%] md:mt-0'>
+                    <div className='w-full md:w-1/2 px-6 md:px-16 py-6 flex flex-col gap-4 mt-[100%] md:mt-0'>
                         <button onClick={closeDetail}
                             className='flex items-center gap-2 text-gray-400 hover:text-white transition-all cursor-pointer w-fit text-lg'>
                             ← Back
