@@ -48,7 +48,6 @@ function Menu({ addToCart }) {
     const gridRef = useRef(null);
     const cardsRef = useRef([]);
 
-    // Cards entrance animation
     useEffect(() => {
         gsap.set(cardsRef.current, { opacity: 0, y: 50 });
         gsap.to(cardsRef.current, {
@@ -61,11 +60,10 @@ function Menu({ addToCart }) {
         });
     }, []);
 
-    // Detail animation
     useEffect(() => {
         const isMobile = window.innerWidth < 768;
 
-        if (selectedPizza && activeImgRef.current && pendingRect && !isMobile) {
+        if (selectedPizza && activeImgRef.current && pendingRect) {
             gsap.fromTo(activeImgRef.current,
                 {
                     top: pendingRect.top,
@@ -77,12 +75,12 @@ function Menu({ addToCart }) {
                     opacity: 1,
                 },
                 {
-                    top: '50%',
-                    left: '65%',
+                    top: isMobile ? '30%' : '50%',
+                    left: isMobile ? '50%' : '65%',
                     xPercent: -50,
                     yPercent: -50,
-                    width: 400,
-                    height: 400,
+                    width: isMobile ? 250 : 400,
+                    height: isMobile ? 250 : 400,
                     borderRadius: '50%',
                     rotation: 360,
                     duration: 0.9,
@@ -94,21 +92,12 @@ function Menu({ addToCart }) {
         if (selectedPizza && detailContentRef.current) {
             gsap.fromTo(detailContentRef.current,
                 { opacity: 0, x: -100 },
-                { opacity: 1, x: 0, duration: 0.7, ease: 'power3.out', delay: isMobile ? 0.1 : 0.4 }
+                { opacity: 1, x: 0, duration: 0.7, ease: 'power3.out', delay: 0.4 }
             );
         }
     }, [selectedPizza]);
 
     function openDetail(pizza) {
-        const isMobile = window.innerWidth < 768;
-
-        if (isMobile) {
-            setSelectedPizza(pizza);
-            setIsOpen(true);
-            gsap.to(gridRef.current, { opacity: 0, duration: 0.3 });
-            return;
-        }
-
         const gridImg = imgRefs.current[pizza.id];
         const rect = gridImg.getBoundingClientRect();
         setPendingRect(rect);
@@ -162,8 +151,8 @@ function Menu({ addToCart }) {
     return (
         <div className='bg-zinc-900 min-h-screen'>
 
-            {/* Active Image - desktop only */}
-            {selectedPizza && window.innerWidth >= 768 && (
+            {/* Active Image */}
+            {selectedPizza && (
                 <img
                     ref={activeImgRef}
                     src={selectedPizza.img}
@@ -195,16 +184,10 @@ function Menu({ addToCart }) {
             {/* Detail Content */}
             {isOpen && selectedPizza && (
                 <div ref={detailContentRef}
-                    className='fixed inset-0 z-20 bg-zinc-900 md:bg-transparent flex flex-col md:flex-row md:items-center overflow-y-auto'
+                    className='fixed inset-0 z-20 bg-zinc-900 flex flex-col md:flex-row md:items-center overflow-y-auto'
                     style={{ opacity: 0 }}>
 
-                    {/* صورة على الموبايل بس */}
-                    <div className='md:hidden w-full h-56 overflow-hidden flex-shrink-0'>
-                        <img src={selectedPizza.img} className='w-full h-full object-cover' alt={selectedPizza.name} />
-                    </div>
-
-                    {/* Content */}
-                    <div className='w-full md:w-1/2 px-6 md:px-16 py-6 flex flex-col gap-4'>
+                    <div className='w-full md:w-1/2 px-6 md:px-16 py-6 flex flex-col gap-4 mt-[55%] md:mt-0'>
                         <button onClick={closeDetail}
                             className='flex items-center gap-2 text-gray-400 hover:text-white transition-all cursor-pointer w-fit text-lg'>
                             ← Back
