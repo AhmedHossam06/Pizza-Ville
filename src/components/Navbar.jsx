@@ -1,4 +1,4 @@
-import { NavLink, useNavigate } from 'react-router-dom';
+import { NavLink, useNavigate,Link } from 'react-router-dom';
 import { useState } from 'react';
 import { useAuth } from '../AuthContext';
 import Swal from 'sweetalert2';
@@ -31,7 +31,10 @@ function Navbar() {
         <div className="w-full bg-black">
             {/* Main Navbar */}
             <div className="flex items-center justify-between px-6 lg:px-10 py-4">
-                <h1 className="text-white text-2xl md:text-3xl">PIZZA VILLE</h1>
+                <Link to="/" className="text-white text-2xl md:text-3xl">
+                PIZZA VILLE
+                </Link>
+                {/* <h1 className="text-white text-2xl md:text-3xl"></h1> */}
 
                 {/* Hamburger */}
                 <button className="text-white lg:hidden text-3xl cursor-pointer" onClick={() => setMenuOpen(!menuOpen)}>
